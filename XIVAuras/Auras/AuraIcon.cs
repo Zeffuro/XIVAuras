@@ -38,7 +38,6 @@ namespace XIVAuras.Auras
 
             // ugly hack
             this.StyleConditions.UpdateTriggerCount(this.TriggerConfig.TriggerOptions.Count);
-            this.StyleConditions.UpdateDefaultStyle(this.IconStyleConfig);
 
             yield return this.StyleConditions;
             yield return this.VisibilityConfig;
@@ -83,7 +82,7 @@ namespace XIVAuras.Auras
 
             bool triggered = this.TriggerConfig.IsTriggered(this.Preview, out DataSource[] datas, out int triggeredIndex);
             DataSource data = datas[triggeredIndex];
-            IconStyleConfig style = this.StyleConditions.GetStyle(datas, triggeredIndex) ?? this.IconStyleConfig;
+            IconStyleConfig style = this.StyleConditions.GetStyle(datas) ?? this.IconStyleConfig;
 
             Vector2 localPos = pos + style.Position;
             Vector2 size = style.Size;
