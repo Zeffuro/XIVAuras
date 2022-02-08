@@ -75,13 +75,14 @@ namespace XIVAuras.Config
         [JsonIgnore] private int _swapX = -1;
         [JsonIgnore] private int _swapY = -1;
         [JsonIgnore] private int _triggerCount = 0;
+        [JsonIgnore] private T? _defaultStyle;
 
         public string Name => "Conditions";
         public IConfigPage GetDefault() => new StyleConditions<T>();
       
         public List<StyleCondition<T>> Conditions { get; set; } = new List<StyleCondition<T>>();
 
-        public T? GetStyle(DataSource[]? data)
+        public T? GetStyle(DataSource[]? data, int triggeredIndex)
         {
             if (!this.Conditions.Any() || data is null)
             {
@@ -110,20 +111,26 @@ namespace XIVAuras.Config
             {
                 foreach (var condition in this.Conditions)
                 {
-                    condition.TriggerDataSourceIndex = Math.Clamp(condition.TriggerDataSourceIndex, 0, count - 1);
+                    condition.TriggerDataSourceIndex = Math.Clamp(condition.TriggerDataSourceIndex, 0, count);
                 }
             }
 
             if (count > _triggerOptions.Length)
             {
-                _triggerOptions = new string[count];
-                for (int i = 0; i < _triggerOptions.Length; i++)
+                _triggerOptions = new string[count + 1];
+                _triggerOptions[0] = "Dynamic";
+                for (int i = 1; i < _triggerOptions.Length; i++)
                 {
-                    _triggerOptions[i] = $"Trigger {i + 1}";
+                    _triggerOptions[i] = $"Trigger {i}";
                 }
             }
 
             _triggerCount = count;
+        }
+
+        public void UpdateDefaultStyle(T style)
+        {
+            _defaultStyle = style;
         }
 
         public void DrawConfig(Vector2 size, float padX, float padY)
@@ -146,8 +153,8 @@ namespace XIVAuras.Config
                     int buttonCount = this.Conditions.Count > 1 ? 4 : 2;
                     float actionsWidth = buttonSize.X * buttonCount + padX * (buttonCount - 1);
                     ImGui.TableSetupColumn("Condition", ImGuiTableColumnFlags.WidthFixed, 55, 0);
-                    ImGui.TableSetupColumn("Trigger Source", ImGuiTableColumnFlags.WidthFixed, 90, 1);
-                    ImGui.TableSetupColumn("Data Source", ImGuiTableColumnFlags.WidthFixed, 90, 2);
+                    ImGui.TableSetupColumn("Data Source", ImGuiTableColumnFlags.WidthFixed, 90, 1);
+                    ImGui.TableSetupColumn("Data", ImGuiTableColumnFlags.WidthFixed, 90, 2);
                     ImGui.TableSetupColumn("Operator", ImGuiTableColumnFlags.WidthFixed, 55, 3);
                     ImGui.TableSetupColumn("Value", ImGuiTableColumnFlags.WidthStretch, 0, 4);
                     ImGui.TableSetupColumn("Actions", ImGuiTableColumnFlags.WidthFixed, actionsWidth, 5);
@@ -166,7 +173,7 @@ namespace XIVAuras.Config
                     ImGui.PushID(this.Conditions.Count.ToString());
                     ImGui.TableNextRow(ImGuiTableRowFlags.None, 28);
                     ImGui.TableSetColumnIndex(5);
-                    DrawHelpers.DrawButton(string.Empty, FontAwesomeIcon.Plus, () => this.Conditions.Add(new StyleCondition<T>()), "New Condition", buttonSize);
+                    DrawHelpers.DrawButton(string.Empty, FontAwesomeIcon.Plus, () => this.Conditions.Add(new StyleCondition<T>(_defaultStyle)), "New Condition", buttonSize);
                 }
 
                 ImGui.EndTable();
@@ -209,7 +216,7 @@ namespace XIVAuras.Config
             {
                 ImGui.SetCursorPosY(ImGui.GetCursorPosY() + 1f);
                 ImGui.PushItemWidth(ImGui.GetColumnWidth());
-                ImGui.Combo("##TriggerCombo", ref condition.TriggerDataSourceIndex, _triggerOptions, _triggerCount);
+                ImGui.Combo("##TriggerCombo", ref condition.TriggerDataSourceIndex, _triggerOptions, _triggerCount + 1);
                 ImGui.PopItemWidth();
             }
 
