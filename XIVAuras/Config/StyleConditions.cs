@@ -91,6 +91,7 @@ namespace XIVAuras.Config
 
             foreach (var condition in this.Conditions)
             {
+                // int index = Math.Clamp(condition.TriggerDataSourceIndex, 0, data.Length - 1);
                 int index = condition.TriggerDataSourceIndex == 0
                     ? triggeredIndex
                     : condition.TriggerDataSourceIndex - 1;
@@ -132,7 +133,7 @@ namespace XIVAuras.Config
             _defaultStyle = style;
         }
 
-        public void DrawConfig(IConfigurable parent, Vector2 size, float padX, float padY)
+        public void DrawConfig(Vector2 size, float padX, float padY)
         {
             ImGui.Text(_text);
             size = size.AddY(-(_yOffset + padY));
