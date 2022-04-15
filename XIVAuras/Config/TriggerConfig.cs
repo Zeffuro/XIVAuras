@@ -159,6 +159,7 @@ namespace XIVAuras.Config
                             TriggerType.Status          => new StatusTrigger(),
                             TriggerType.Cooldown        => new CooldownTrigger(),
                             TriggerType.CharacterState  => new CharacterStateTrigger(),
+                            TriggerType.Resource        => new ResourceTrigger(),
                         _                               => new StatusTrigger()
                         };
                         this.TriggerOptions[_selectedIndex].Condition = oldCond;

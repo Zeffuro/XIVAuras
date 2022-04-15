@@ -72,6 +72,8 @@ namespace XIVAuras.Helpers
             "[maxgp]",
             "[cp]",
             "[maxcp]",
+            "[elementtime]",
+            "[umbralhearts]",
         };
 
         public string GetFormattedString(string format, string numberFormat, int rounding)
@@ -90,16 +92,18 @@ namespace XIVAuras.Helpers
                 
         public float GetDataForSourceType(TriggerDataSource sourcetype) => sourcetype switch
         {
-            TriggerDataSource.Value     => this.Value,
-            TriggerDataSource.Stacks    => this.Stacks,
-            TriggerDataSource.MaxStacks => this.MaxStacks,
-            TriggerDataSource.HP        => this.Hp,
-            TriggerDataSource.MP        => this.Mp,
-            TriggerDataSource.CP        => this.Cp,
-            TriggerDataSource.GP        => this.Gp,
-            TriggerDataSource.Level     => this.Level,
-            TriggerDataSource.Distance  => this.Distance,
-            _                           => 0
+            TriggerDataSource.Value         => this.Value,
+            TriggerDataSource.Stacks        => this.Stacks,
+            TriggerDataSource.MaxStacks     => this.MaxStacks,
+            TriggerDataSource.HP            => this.Hp,
+            TriggerDataSource.MP            => this.Mp,
+            TriggerDataSource.CP            => this.Cp,
+            TriggerDataSource.GP            => this.Gp,
+            TriggerDataSource.Level         => this.Level,
+            TriggerDataSource.Distance      => this.Distance,
+            TriggerDataSource.ElementTime   => this.ElementTime,
+            TriggerDataSource.UmbralHearts  => this.UmbralHearts,
+            _                               => 0
         };
 
         public uint Id;
@@ -126,5 +130,10 @@ namespace XIVAuras.Helpers
         public float MaxCp;
         public bool HasPet;
         public float Distance;
+        public float ElementTime;
+        public float MaxElementTime;
+        public bool InUmbralIce;
+        public bool InAstralFire;
+        public float UmbralHearts;
     }
 }
