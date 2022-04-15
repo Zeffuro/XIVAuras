@@ -33,7 +33,7 @@ namespace XIVAuras
         public static string ConfigFilePath { get; private set; } = "";
 
         public static TextureWrap? IconTexture { get; private set; } = null;
-
+        public static JobGauges JobGauges { get; private set; } = null!;
         public static string Changelog { get; private set; } = string.Empty;
 
         public string Name => "XIVAuras";
@@ -54,6 +54,8 @@ namespace XIVAuras
             TargetManager targetManager
         )
         {
+            JobGauges = jobGauges;
+
             Plugin.Version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? Plugin.Version;
             Plugin.ConfigFileDir = pluginInterface.GetPluginConfigDirectory();
             Plugin.ConfigFilePath = Path.Combine(pluginInterface.GetPluginConfigDirectory(), Plugin.ConfigFileName);
