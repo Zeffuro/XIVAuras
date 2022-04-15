@@ -12,7 +12,8 @@ namespace XIVAuras.Helpers
     {
         Status,
         Cooldown,
-        CharacterState
+        CharacterState,
+        Resource
     }
 
     public enum TriggerSource
@@ -40,7 +41,16 @@ namespace XIVAuras.Helpers
         CP,
         GP,
         Level,
-        Distance
+        Distance,
+        ElementTime,
+        UmbralHearts
+    }
+
+    public enum ResourceDataSource
+    {
+
+        InUmbralIce,
+        InAstralFire
     }
 
     public enum TriggerDataOp
