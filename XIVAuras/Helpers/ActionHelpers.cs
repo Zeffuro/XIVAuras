@@ -214,6 +214,41 @@ namespace XIVAuras.Helpers
             return new List<TriggerData>();
         }
 
+        public static List<TriggerData> FindStatusEntries(string input)
+        {
+            ExcelSheet<Item>? sheet = Singletons.Get<DataManager>().GetExcelSheet<Item>();
+
+            if (!string.IsNullOrEmpty(input) && sheet is not null)
+            {
+                List<TriggerData> itemList = new List<TriggerData>();
+
+                // Add by id
+                if (uint.TryParse(input, out uint value))
+                {
+                    if (value > 0)
+                    {
+                        Item? item = sheet.GetRow(value);
+                        if (item is not null)
+                        {
+                            itemList.Add(new TriggerData(item.Name, item.RowId, item.Icon, 0));
+                        }
+                    }
+                }
+
+                // Add by name
+                if (itemList.Count == 0)
+                {
+                    itemList.AddRange(
+                        sheet.Where(item => input.ToLower().Equals(item.Name.ToString().ToLower()))
+                            .Select(item => new TriggerData(item.Name, item.RowId, item.Icon, 0)));
+                }
+
+                return itemList;
+            }
+
+            return new List<TriggerData>();
+        }
+
         public static List<TriggerData> FindActionEntries(string input)
         {
             List<TriggerData> actionList = new List<TriggerData>();

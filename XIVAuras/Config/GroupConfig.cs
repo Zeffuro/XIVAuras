@@ -12,6 +12,10 @@ namespace XIVAuras.Config
         public string Name => "Group";
 
         public Vector2 Position = new Vector2(0, 0);
+        public Vector2 IconSize = new Vector2(40, 40);
+
+        [JsonIgnore] public bool RecusiveResize = false;
+        [JsonIgnore] public bool ConditionsResize = false;
 
         [JsonIgnore] private Vector2 _iconSize = new Vector2(40, 40);
         [JsonIgnore] private float _mX = 1f;
