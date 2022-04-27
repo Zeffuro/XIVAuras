@@ -86,7 +86,7 @@
 
     <!-- NuGet Packages -->
     <ItemGroup>
-        <PackageReference Include="DalamudPackager" Version="2.1.6" />
+        <PackageReference Include="DalamudPackager" Version="2.1.7" />
     </ItemGroup>
 
     <!-- Dalamud Packager Task-->

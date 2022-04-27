@@ -21,6 +21,8 @@ namespace XIVAuras.Config
         public bool HideOutsideCombat = false;
         public bool ShowWhenWeaponDrawn = false;
         public bool ShowInDuty = false;
+        public bool HideInPvP = false;
+        public bool ShowInPvP = false;
         public bool HideOutsideDuty = false;
         public bool HideWhilePerforming = false;
         public bool HideInGoldenSaucer = false;
@@ -46,6 +48,16 @@ namespace XIVAuras.Config
             if (this.HideInCombat && CharacterState.IsInCombat())
             {
                 return false;
+            }
+
+            if (this.HideInPvP && CharacterState.IsInPvpTerritory())
+            {
+                return false;
+            }
+
+            if (this.ShowInPvP && CharacterState.IsInPvpTerritory())
+            {
+                return true;
             }
 
             if (this.HideOutsideCombat && !CharacterState.IsInCombat())
@@ -96,12 +108,15 @@ namespace XIVAuras.Config
             {
                 ImGui.Checkbox("Always Hide", ref this.AlwaysHide);
                 ImGui.Checkbox("Hide In Combat", ref this.HideInCombat);
+                ImGui.Checkbox("Hide In PvP", ref this.HideInPvP);
+                ImGui.Checkbox("Show In PvP", ref this.ShowInPvP);
                 ImGui.Checkbox("Hide Outside Combat", ref this.HideOutsideCombat);
-                DrawHelpers.DrawNestIndicator(1);
-                ImGui.Checkbox("Show when weapon is drawn", ref this.ShowWhenWeaponDrawn);
-                DrawHelpers.DrawNestIndicator(1);
-                ImGui.Checkbox("Show in duty", ref this.ShowInDuty);
-
+                if (this.HideOutsideCombat) {
+                    DrawHelpers.DrawNestIndicator(1);
+                    ImGui.Checkbox("Show When Weapon Is Drawn", ref this.ShowWhenWeaponDrawn);
+                    DrawHelpers.DrawNestIndicator(1);
+                    ImGui.Checkbox("Show In Duty", ref this.ShowInDuty);
+                }
                 ImGui.Checkbox("Hide Outside Duty", ref this.HideOutsideDuty);
                 ImGui.Checkbox("Hide While Performing", ref this.HideWhilePerforming);
                 ImGui.Checkbox("Hide In Golden Saucer", ref this.HideInGoldenSaucer);
