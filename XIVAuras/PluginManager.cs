@@ -121,6 +121,11 @@ namespace XIVAuras
             return this.ConfigRoot.IsConfigurableOpen(configurable);
         }
 
+        public bool ShouldClip()
+        {
+            return this.Config.VisibilityConfig.Clip;
+        }
+
         private void OpenConfigUi()
         {
             if (!this.ConfigRoot.IsOpen)

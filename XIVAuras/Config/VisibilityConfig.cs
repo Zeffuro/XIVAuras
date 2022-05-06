@@ -29,6 +29,7 @@ namespace XIVAuras.Config
         public bool HideWhenSheathed = false;
         public bool Clip = false;
         public bool HideOutsideEureka = false;
+        public bool Clip = false;
 
         public bool HideIfLevel = false;
         public TriggerDataOp HideIfLevelOp = TriggerDataOp.LessThan;
@@ -114,8 +115,6 @@ namespace XIVAuras.Config
             if (ImGui.BeginChild("##VisibilityConfig", new Vector2(size.X, size.Y), true))
             {
                 ImGui.Checkbox("Always Hide", ref this.AlwaysHide);
-                ImGui.Checkbox("Hide In PvP", ref this.HideInPvP);
-                ImGui.Checkbox("Hide Outside PvP", ref this.HideOutsidePvP);
                 ImGui.Checkbox("Hide In Combat", ref this.HideInCombat);
                 ImGui.Checkbox("Hide Outside Combat", ref this.HideOutsideCombat);
                 if (this.HideOutsideCombat) {
@@ -129,6 +128,8 @@ namespace XIVAuras.Config
                 ImGui.Checkbox("Hide While Weapon Sheathed", ref this.HideWhenSheathed);
                 
                 DrawHelpers.DrawSpacing();
+                ImGui.Checkbox("Hide In PvP", ref this.HideInPvP);
+                ImGui.Checkbox("Hide Outside PvP", ref this.HideOutsidePvP);
                 ImGui.Checkbox("Hide In Golden Saucer", ref this.HideInGoldenSaucer);
                 ImGui.Checkbox("Hide Outside Eureka", ref this.HideOutsideEureka);
 
