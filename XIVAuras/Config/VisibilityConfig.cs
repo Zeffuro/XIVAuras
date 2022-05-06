@@ -28,6 +28,7 @@ namespace XIVAuras.Config
         public bool HideInGoldenSaucer = false;
         public bool HideWhenSheathed = false;
         public bool Clip = false;
+        public bool HideOutsideEureka = false;
 
         public bool HideIfLevel = false;
         public TriggerDataOp HideIfLevelOp = TriggerDataOp.LessThan;
@@ -79,6 +80,11 @@ namespace XIVAuras.Config
                 return false;
             }
 
+            if (this.HideOutsideEureka && !CharacterState.IsInEureka())
+            {
+                return false;
+            }
+
             if (this.HideWhilePerforming && CharacterState.IsPerforming())
             {
                 return false;
@@ -112,15 +118,19 @@ namespace XIVAuras.Config
                 ImGui.Checkbox("Hide Outside PvP", ref this.HideOutsidePvP);
                 ImGui.Checkbox("Hide In Combat", ref this.HideInCombat);
                 ImGui.Checkbox("Hide Outside Combat", ref this.HideOutsideCombat);
-                DrawHelpers.DrawNestIndicator(1);
-                ImGui.Checkbox("Show when weapon is drawn", ref this.ShowWhenWeaponDrawn);
-                DrawHelpers.DrawNestIndicator(1);
-                ImGui.Checkbox("Show in duty", ref this.ShowInDuty);
-
+                if (this.HideOutsideCombat) {
+                    DrawHelpers.DrawNestIndicator(1);
+                    ImGui.Checkbox("Show When Weapon Is Drawn", ref this.ShowWhenWeaponDrawn);
+                    DrawHelpers.DrawNestIndicator(1);
+                    ImGui.Checkbox("Show In Duty", ref this.ShowInDuty);
+                }
                 ImGui.Checkbox("Hide Outside Duty", ref this.HideOutsideDuty);
                 ImGui.Checkbox("Hide While Performing", ref this.HideWhilePerforming);
-                ImGui.Checkbox("Hide In Golden Saucer", ref this.HideInGoldenSaucer);
                 ImGui.Checkbox("Hide While Weapon Sheathed", ref this.HideWhenSheathed);
+                
+                DrawHelpers.DrawSpacing();
+                ImGui.Checkbox("Hide In Golden Saucer", ref this.HideInGoldenSaucer);
+                ImGui.Checkbox("Hide Outside Eureka", ref this.HideOutsideEureka);
 
                 DrawHelpers.DrawSpacing();
                 ImGui.Checkbox("Hide if Level", ref this.HideIfLevel);
