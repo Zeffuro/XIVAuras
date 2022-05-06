@@ -10,9 +10,15 @@
     <!-- Assembly Configuration -->
     <PropertyGroup>
         <AssemblyName>XIVAuras</AssemblyName>
+<<<<<<< HEAD
         <AssemblyVersion>0.2.5.0</AssemblyVersion>
         <FileVersion>0.2.5.0</FileVersion>
         <InformationalVersion>0.2.5.0</InformationalVersion>
+=======
+        <AssemblyVersion>0.2.3.0</AssemblyVersion>
+        <FileVersion>0.2.3.0</FileVersion>
+        <InformationalVersion>0.2.3.0</InformationalVersion>
+>>>>>>> 6a054bc (update to 0.2.3.0)
     </PropertyGroup>
 
     <!-- Build Configuration -->
