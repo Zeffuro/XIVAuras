@@ -16,6 +16,8 @@ namespace XIVAuras.Helpers
 
         private static readonly uint[] _pvpZoneIDs = { 149, 250, 376, 431, 502, 506, 537, 538, 539, 540, 541, 542, 543, 544, 545, 546, 547, 548, 549, 550, 551, 554, 589, 590, 591, 633, 701, 717, 729, 791, 888, 977, 1032, 1033, 1034, 1058, 1059, 1060 };
 
+        private static readonly uint[] _eurekaIDs = { 732, 763, 795, 827 };
+
         public static bool IsCharacterBusy()
         {
             Condition condition = Singletons.Get<Condition>();
@@ -56,6 +58,11 @@ namespace XIVAuras.Helpers
         public static bool IsInGoldenSaucer()
         {
             return _goldenSaucerIDs.Any(id => id == Singletons.Get<ClientState>().TerritoryType);
+        }
+
+        public static bool IsInEureka()
+        {
+            return _eurekaIDs.Any(id => id == Singletons.Get<ClientState>().TerritoryType);
         }
 
         public static Job GetCharacterJob()

@@ -27,6 +27,7 @@ namespace XIVAuras.Config
         public bool HideWhilePerforming = false;
         public bool HideInGoldenSaucer = false;
         public bool HideWhenSheathed = false;
+        public bool HideOutsideEureka = false;
 
         public bool HideIfLevel = false;
         public TriggerDataOp HideIfLevelOp = TriggerDataOp.LessThan;
@@ -78,6 +79,11 @@ namespace XIVAuras.Config
                 return false;
             }
 
+            if (this.HideOutsideEureka && !CharacterState.IsInEureka())
+            {
+                return false;
+            }
+
             if (this.HideWhilePerforming && CharacterState.IsPerforming())
             {
                 return false;
@@ -108,8 +114,6 @@ namespace XIVAuras.Config
             {
                 ImGui.Checkbox("Always Hide", ref this.AlwaysHide);
                 ImGui.Checkbox("Hide In Combat", ref this.HideInCombat);
-                ImGui.Checkbox("Hide In PvP", ref this.HideInPvP);
-                ImGui.Checkbox("Show In PvP", ref this.ShowInPvP);
                 ImGui.Checkbox("Hide Outside Combat", ref this.HideOutsideCombat);
                 if (this.HideOutsideCombat) {
                     DrawHelpers.DrawNestIndicator(1);
@@ -119,8 +123,13 @@ namespace XIVAuras.Config
                 }
                 ImGui.Checkbox("Hide Outside Duty", ref this.HideOutsideDuty);
                 ImGui.Checkbox("Hide While Performing", ref this.HideWhilePerforming);
-                ImGui.Checkbox("Hide In Golden Saucer", ref this.HideInGoldenSaucer);
                 ImGui.Checkbox("Hide While Weapon Sheathed", ref this.HideWhenSheathed);
+                
+                DrawHelpers.DrawSpacing();
+                ImGui.Checkbox("Show In PvP", ref this.ShowInPvP);
+                ImGui.Checkbox("Hide In PvP", ref this.HideInPvP);
+                ImGui.Checkbox("Hide In Golden Saucer", ref this.HideInGoldenSaucer);
+                ImGui.Checkbox("Hide Outside Eureka", ref this.HideOutsideEureka);
 
                 DrawHelpers.DrawSpacing();
                 ImGui.Checkbox("Hide if Level", ref this.HideIfLevel);
