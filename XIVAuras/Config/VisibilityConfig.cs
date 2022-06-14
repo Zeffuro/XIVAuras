@@ -24,6 +24,7 @@ namespace XIVAuras.Config
         public bool ShowWhenWeaponDrawn = false;
         public bool ShowInDuty = false;
         public bool HideOutsideDuty = false;
+        public bool HideInDuty = false;
         public bool HideWhilePerforming = false;
         public bool HideInGoldenSaucer = false;
         public bool HideWhenSheathed = false;
@@ -81,6 +82,11 @@ namespace XIVAuras.Config
                 return false;
             }
 
+            if (this.HideInDuty && CharacterState.IsInDuty())
+            {
+                return true;
+            }
+
             if (this.HideOutsideEureka && !CharacterState.IsInEureka())
             {
                 return false;
@@ -123,6 +129,7 @@ namespace XIVAuras.Config
                     DrawHelpers.DrawNestIndicator(1);
                     ImGui.Checkbox("Show In Duty", ref this.ShowInDuty);
                 }
+                ImGui.Checkbox("Hide In Duty", ref this.HideInDuty);
                 ImGui.Checkbox("Hide Outside Duty", ref this.HideOutsideDuty);
                 ImGui.Checkbox("Hide While Performing", ref this.HideWhilePerforming);
                 ImGui.Checkbox("Hide While Weapon Sheathed", ref this.HideWhenSheathed);
