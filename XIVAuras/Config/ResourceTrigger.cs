@@ -21,6 +21,7 @@ namespace XIVAuras.Config
         [JsonIgnore] private static readonly string[] _astralFireOptions = new[] { "In Astral Fire", "Not in Astral Fire" };
         [JsonIgnore] private string _elementTimeValueInput = string.Empty;
         [JsonIgnore] private string _umbralHeartsValueInput = string.Empty;
+        [JsonIgnore] private string _repertoireValueInput = string.Empty;
 
         public TriggerSource TriggerSource = TriggerSource.Player;
 
@@ -37,11 +38,15 @@ namespace XIVAuras.Config
         public bool UmbralHearts;
         public TriggerDataOp UmbralHeartsOp = TriggerDataOp.GreaterThan;
         public float UmbralHeartsValue;
+        public bool Repertoire;
+        public TriggerDataOp RepertoireOp = TriggerDataOp.GreaterThan;
+        public float RepertoireValue;
 
         public override bool IsTriggered(bool preview, out DataSource data)
         {
             data = new DataSource();
             BLMGauge blmGauge = Plugin.JobGauges.Get<BLMGauge>();
+            BRDGauge brdGauge = Plugin.JobGauges.Get<BRDGauge>();
             
             if (preview)
             {
@@ -62,13 +67,15 @@ namespace XIVAuras.Config
                 data.InUmbralIce = this.TriggerSource == TriggerSource.Player && blmGauge.InUmbralIce;
                 data.InAstralFire = this.TriggerSource == TriggerSource.Player && blmGauge.InAstralFire;
                 data.UmbralHearts = blmGauge.UmbralHearts;
+                data.Repertoire = brdGauge.Repertoire;
             }
 
             return preview ||
                 (!this.ElementTime || Utils.GetResult(data.ElementTime, this.ElementTimeOp, this.ElementTimeValue)) &&
                 (!this.InUmbralIce || (this.UmbralIceValue == 0 ? data.InUmbralIce : !data.InUmbralIce)) &&
                 (!this.InAstralFire || (this.AstralFireValue == 0 ? data.InAstralFire : !data.InAstralFire)) &&
-                (!this.UmbralHearts || Utils.GetResult(data.UmbralHearts, this.UmbralHeartsOp, this.UmbralHeartsValue));
+                (!this.UmbralHearts || Utils.GetResult(data.UmbralHearts, this.UmbralHeartsOp, this.UmbralHeartsValue)) &&
+                (!this.Repertoire || Utils.GetResult(data.Repertoire, this.RepertoireOp, this.RepertoireValue));
         }
 
         public override void DrawTriggerOptions(Vector2 size, float padX, float padY)
@@ -168,6 +175,37 @@ namespace XIVAuras.Config
                     ImGui.PushItemWidth(optionsWidth);
                     ImGui.Combo("##AstralFire", ref this.AstralFireValue, _astralFireOptions, _astralFireOptions.Length);
                 }
+            }
+
+            DrawHelpers.DrawNestIndicator(1);
+            ImGui.Checkbox("Repertoire", ref this.Repertoire);
+            if (this.Repertoire)
+            {
+                ImGui.SameLine();
+                padWidth = ImGui.CalcItemWidth() - ImGui.GetCursorPosX() - optionsWidth + padX;
+                ImGui.SetCursorPosX(ImGui.GetCursorPosX() + padWidth);
+                ImGui.PushItemWidth(opComboWidth);
+                ImGui.Combo("##RepertoireOp", ref Unsafe.As<TriggerDataOp, int>(ref this.RepertoireOp), operatorOptions, operatorOptions.Length);
+                ImGui.PopItemWidth();
+                ImGui.SameLine();
+
+                if (string.IsNullOrEmpty(_repertoireValueInput))
+                {
+                    _repertoireValueInput = this.RepertoireValue.ToString();
+                }
+
+                ImGui.PushItemWidth(valueInputWidth);
+                if (ImGui.InputText("##RepertoireValue", ref _repertoireValueInput, 10, ImGuiInputTextFlags.CharsDecimal))
+                {
+                    if (float.TryParse(_repertoireValueInput, out float value))
+                    {
+                        this.RepertoireValue = value;
+                    }
+
+                    _repertoireValueInput = this.RepertoireValue.ToString();
+                }
+                
+                ImGui.PopItemWidth();
             }
         }
     }

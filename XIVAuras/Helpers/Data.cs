@@ -105,6 +105,7 @@ namespace XIVAuras.Helpers
             TriggerDataSource.Distance      => this.Distance,
             TriggerDataSource.ElementTime   => this.ElementTime,
             TriggerDataSource.UmbralHearts  => this.UmbralHearts,
+            TriggerDataSource.Repertoire    => this.Repertoire,
             _                               => 0
         };
 
@@ -137,5 +138,6 @@ namespace XIVAuras.Helpers
         public bool InUmbralIce;
         public bool InAstralFire;
         public float UmbralHearts;
+        public float Repertoire;
     }
 }

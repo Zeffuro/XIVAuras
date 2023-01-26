@@ -50,7 +50,8 @@ namespace XIVAuras.Helpers
         Level,
         Distance,
         ElementTime,
-        UmbralHearts
+        UmbralHearts,
+        Repertoire
     }
 
     public enum ResourceDataSource
